@@ -11,9 +11,19 @@ export async function fetchAndStoreSheepData(GuruUrl: string) {
     const response = await fetch(GuruUrl, { headers });
     const data = await response.json();
 
-    const animalsData = new GuruSheepData(data);
-    await animalsData.save();
+    const sheepData = new GuruSheepData(data);
+    if (sheepData.updatedAt) await sheepData.save();
   } catch (error) {
     console.error("Error fetching and storing animals data:", error);
+  }
+}
+
+// Function to clear the GuruSheepData collection
+export async function clearGuruSheepData() {
+  try {
+    await GuruSheepData.deleteMany({});
+    console.log("Cleared all documents from GuruSheepData");
+  } catch (error) {
+    console.error("Error clearing GuruSheepData:", error);
   }
 }
