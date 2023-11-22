@@ -8,7 +8,6 @@ import {
   clearGuruSheepData,
 } from "./services/fetchSheepFromGuru.js";
 import { guruLogger } from "./services/winstonLogger.js";
-import { GuruSheepData } from "./models/guruSheepModel.js";
 import app from "./app.js";
 
 const PORT = process.env.PORT as string;
