@@ -15,7 +15,7 @@ const GuruSheepSchema = new Schema(
       energy: { type: Number, required: true },
       wool: { type: Number, required: true },
     },
-    ownerAddress: { type: String, required: true },
+    ownerAddress: { type: String },
     position: {
       x: { type: Number, required: true },
       y: { type: Number, required: true },

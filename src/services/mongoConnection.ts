@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const mongoURI: string = process.env.MONGODB_URI as string;
+export const connectToMongo = async (mongoURI: string): Promise<void> => {
+  console.log("MongoDB URI:", mongoURI); // Debugging line
 
-export const connectToMongo = async (): Promise<void> => {
   try {
     await mongoose.connect(mongoURI);
     console.log("Connected to MongoDB successfully");
