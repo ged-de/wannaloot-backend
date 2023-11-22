@@ -37,15 +37,19 @@ cron.schedule("*/10 * * * *", async () => {
   }
 });
 
-// Schedule to clear the database to run every day at 4:55 AM
-cron.schedule("55 4 * * *", async () => {
-  guruLogger.info("Clearing up mongoDB - Task started");
-  try {
-    await clearGuruSheepData();
-    guruLogger.info(
-      "Task completed successfully: Clearing up DB and deleting all documents fetched from Guru"
-    );
-  } catch (error) {
-    guruLogger.error("Error during clearing up db:", error);
-  }
-});
+// Schedule to clear the database to run every day at 4:55 AM Berlin Time
+cron.schedule(
+  "55 4 * * *",
+  async () => {
+    guruLogger.info("Clearing up mongoDB - Task started");
+    try {
+      await clearGuruSheepData();
+      guruLogger.info(
+        "Task completed successfully: Clearing up DB and deleting all documents fetched from Guru"
+      );
+    } catch (error) {
+      guruLogger.error("Error during clearing up db:", error);
+    }
+  },
+  { timezone: "Europe/Berlin" }
+);
