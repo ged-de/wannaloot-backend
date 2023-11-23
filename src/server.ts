@@ -7,12 +7,14 @@ import {
   fetchAndStoreSheepData,
   clearGuruSheepData,
 } from "./services/fetchSheepFromGuru.js";
-import { guruLogger } from "./services/winstonLogger.js";
+import { fetchAndStoreChopRates } from "./services/fetchChopRatesFromWGP.js";
+import { fetchingLogger } from "./services/winstonLogger.js";
 import app from "./app.js";
 
 const PORT = process.env.PORT as string;
 const MONGODB_URI = process.env.MONGODB_URI as string;
 const GURU_URL = process.env.GURU_URL as string;
+const WGP_URL = process.env.WGP_URL as string;
 
 // console.log(process.env); // // For testing only
 
@@ -25,14 +27,33 @@ app.listen(PORT, () => {
 
 // Schedule to fetch sheepData from Guru every 10 min
 cron.schedule("*/10 * * * *", async () => {
-  guruLogger.info("Fetching and storing animal data - Task started");
+  fetchingLogger.info("Fetching and storing SHEEP DATA - Task started");
   try {
     await fetchAndStoreSheepData(GURU_URL);
-    guruLogger.info(
-      "Fetching and storing animal data - Task completed successfully"
+    fetchingLogger.info(
+      "Fetching and storing SHEEP DATA - Task completed successfully"
     );
   } catch (error) {
-    guruLogger.error("Error during fetching and storing sheep data:", error);
+    fetchingLogger.error(
+      "Error during fetching and storing SHEEP DATA:",
+      error
+    );
+  }
+});
+
+// Schedule to fetch chopRates from WGP every 10 min
+cron.schedule("*/10 * * * *", async () => {
+  fetchingLogger.info("Fetching and storing CHOP RATES - Task started");
+  try {
+    await fetchAndStoreChopRates(WGP_URL);
+    fetchingLogger.info(
+      "Fetching and storing CHOP RATES - Task completed successfully"
+    );
+  } catch (error) {
+    fetchingLogger.error(
+      "Error during fetching and storing CHOP RATES:",
+      error
+    );
   }
 });
 
@@ -40,14 +61,14 @@ cron.schedule("*/10 * * * *", async () => {
 cron.schedule(
   "55 4 * * *",
   async () => {
-    guruLogger.info("Clearing up mongoDB - Task started");
+    fetchingLogger.info("Clearing up mongoDB - Task started");
     try {
       await clearGuruSheepData();
-      guruLogger.info(
-        "Task completed successfully: Clearing up DB and deleting all documents fetched from Guru"
+      fetchingLogger.info(
+        "Task completed successfully: Clearing up DB and deleting all SHEEP documents fetched from Guru"
       );
     } catch (error) {
-      guruLogger.error("Error during clearing up db:", error);
+      fetchingLogger.error("Error during clearing up db:", error);
     }
   },
   { timezone: "Europe/Berlin" }

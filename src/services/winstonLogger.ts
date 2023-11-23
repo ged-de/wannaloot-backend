@@ -1,10 +1,10 @@
 import { createLogger, format, transports } from "winston";
 
-export const guruLogger = createLogger({
+export const fetchingLogger = createLogger({
   level: "info",
   format: format.combine(format.timestamp(), format.json()),
   transports: [
     new transports.Console(),
-    new transports.File({ filename: "./logs/guru_fetching.log" }),
+    new transports.File({ filename: "./logs/fetching_data.log" }),
   ],
 });
