@@ -5,6 +5,6 @@ export const guruLogger = createLogger({
   format: format.combine(format.timestamp(), format.json()),
   transports: [
     new transports.Console(),
-    new transports.File({ filename: "./guru_fetching.log" }),
+    new transports.File({ filename: "./logs/guru_fetching.log" }),
   ],
 });
