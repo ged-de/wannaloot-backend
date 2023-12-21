@@ -19,16 +19,19 @@ const WGP_URL = process.env.WGP_URL;
 
 // console.log(process.env); // // For testing only
 
-// Connect to MongoDB
-if (MONGODB_URI2 === undefined || MONGODB_URI2 === "") {
-  console.error("MONGODB URI is not defined");
+// exit process if environment variables are not set
+if (MONGODB_URI2 === undefined || MONGODB_URI2 === "" ||
+    GURU_URL === undefined || GURU_URL === "" ||
+    WGP_URL === undefined || WGP_URL === "") {
+  logger.error("MONGODB URI or GURU_URL or WGP_URL is not defined");
   process.exit(1);
 }
 
+// Connect to MongoDB
 void connectToMongo(MONGODB_URI2);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT}`);
 });
 
 // Schedule to fetch sheepData from Guru every 10 min
