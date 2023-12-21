@@ -12,12 +12,12 @@ const GuruSheepSchema = new Schema({
   looted: { type: Boolean, required: true },
   energyCost: {
     energy: { type: Number, required: true },
-    wool: { type: Number, required: true },
+    wool: { type: Number, required: true }
   },
   ownerAddress: { type: String },
   position: {
     x: { type: Number, required: true },
-    y: { type: Number, required: true },
+    y: { type: Number, required: true }
   },
   generation: { type: Number, required: true },
   energy: { type: Number, required: true },
@@ -26,25 +26,25 @@ const GuruSheepSchema = new Schema({
   weather: {
     type: String,
     enum: ["SUNNY", "CLOUDY", "RAINY"],
-    required: true,
+    required: true
   },
   resourceType: {
     type: String,
     enum: ["WOOD", "WATER", "STONE", "GRASS"],
-    required: true,
+    required: true
   },
   gameType: {
     type: String,
     enum: ["PRISONERS_DILEMMA", "WOLFS_GAMBIT"],
-    required: true,
+    required: true
   },
   initiatedOn: { type: String },
-  farmer: { type: String, default: null },
+  farmer: { type: String, default: null }
 });
 
 const GuruSheepDataSchema = new Schema({
   characters: [GuruSheepSchema],
-  updatedAt: Number,
+  updatedAt: Number
 });
 
 export const GuruSheep = mongoose.model("GuruSheep", GuruSheepSchema);

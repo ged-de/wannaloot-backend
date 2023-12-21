@@ -5,9 +5,9 @@ const ChopRatesSchema = new Schema({
     GRASS: { type: Number, required: true },
     STONE: { type: Number, required: true },
     WATER: { type: Number, required: true },
-    WOOD: { type: Number, required: true },
+    WOOD: { type: Number, required: true }
   },
-  updatedAt: Number,
+  updatedAt: Number
 });
 
 export const ChopRates = mongoose.model("ChopRates", ChopRatesSchema);
