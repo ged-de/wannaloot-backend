@@ -1,14 +1,15 @@
 import fetch from "node-fetch";
 import * as cheerio from "cheerio";
+import { logger } from "./logger.js";
 
 import { ChopRates } from "../models/chopRatesModel.js";
 
 // fetching the chop rates from a website, since we dont have API keys from WG
-export async function fetchAndStoreChopRates(WGPUrl: string) {
+export async function fetchAndStoreChopRates (WGPUrl: string): Promise<void> {
   try {
     const headers = {
       "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
     };
     // Fetch the HTML
     const response = await fetch(WGPUrl, { headers });
@@ -24,20 +25,26 @@ export async function fetchAndStoreChopRates(WGPUrl: string) {
         GRASS: dataRows[2],
         STONE: dataRows[3],
         WATER: dataRows[4],
-        WOOD: dataRows[5],
+        WOOD: dataRows[5]
       },
-      updatedAt: now,
+      updatedAt: now
     };
     // Save chop rates to database
     const chopRatesData = new ChopRates(ChopRatesData);
     await chopRatesData.save();
+    logger.info("Fetching and storing ChopRates...");
   } catch (error) {
-    console.error("Error fetching and storing chop rates data:", error);
+    if (error instanceof Error) {
+      logger.error("Error fetching and storing chop rates data:", error.message);
+    } else {
+      // Handle cases where the error is not an Error instance
+      logger.error("An unknown error occurred while fetching and storing chop rates data:", error);
+    }
   }
 }
 
 // Function to clear the GuruSheepData collection
-export async function clearGuruSheepData() {
+export async function clearGuruSheepData (): Promise<void> {
   try {
     await ChopRates.deleteMany({});
     console.log("Cleared all documents from chop rates database");
@@ -46,7 +53,7 @@ export async function clearGuruSheepData() {
   }
 }
 
-function parseHTMLGetChopRates(htmlContent: string) {
+function parseHTMLGetChopRates (htmlContent: string): number[] {
   const $ = cheerio.load(htmlContent);
 
   // Traverse and find the specific div containing the table with rates

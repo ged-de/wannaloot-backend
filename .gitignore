@@ -4,5 +4,11 @@
 # dependencies
 /node_modules
 
-#logfiles
+# logfiles
 **/logs
+
+# compiled files
+/dist
+
+# notes
+notes.md

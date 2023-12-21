@@ -1,13 +1,13 @@
 import { GuruSheepData } from "../models/guruSheepModel.js";
-import { Request, Response } from "express";
+import { type Request, type Response } from "express";
 
-export async function getLatestGuruSheep(
+export async function getLatestGuruSheep (
   req: Request,
   res: Response
 ): Promise<void> {
   try {
     const latestDocument = await GuruSheepData.findOne().sort({ _id: -1 });
-    if (latestDocument) {
+    if (latestDocument != null) {
       res.json(latestDocument);
     } else {
       res.status(404).json({ message: "No documents found" });
@@ -16,7 +16,7 @@ export async function getLatestGuruSheep(
     const errorMessage = (error as Error).message;
     res.status(500).json({
       message: "Error fetching the latest GuruSheepData",
-      error: errorMessage,
+      error: errorMessage
     });
   }
 }
