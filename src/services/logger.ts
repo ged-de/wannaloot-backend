@@ -1,6 +1,6 @@
 import { createLogger, format, transports } from "winston";
 
-const logger = createLogger({
+export const logger = createLogger({
   level: "info",
   format: format.combine(
     format.timestamp(),
@@ -18,5 +18,3 @@ if (process.env.NODE_ENV !== "production") {
     format: format.simple()
   }));
 }
-
-module.exports = logger;
