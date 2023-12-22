@@ -20,7 +20,7 @@ jobs:
       run: |
         npm run build
         npm install --production
-        zip -r package.zip dist package.json node_modules
+        zip -r package.zip dist package.json Procfile node_modules
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v18
       with:
