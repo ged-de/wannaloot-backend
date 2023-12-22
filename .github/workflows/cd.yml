@@ -21,13 +21,13 @@ jobs:
         npm run build
         npm install --production
         zip -r package.zip dist package.json node_modules
-    - name: Deploy to AWS
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-east-1'
-      run: |
-        aws s3 cp package.zip s3://elasticbeanstalk-us-east-1-905899227224/package.zip
-        VERSION_LABEL=$GITHUB_SHA-$(date +%s)
-        aws elasticbeanstalk create-application-version --application-name wannaloot-server --version-label $VERSION_LABEL --source-bundle S3Bucket=elasticbeanstalk-us-east-1-905899227224,S3Key=package.zip
-        aws elasticbeanstalk update-environment --environment-name wannaloot-server-env --version-label $VERSION_LABEL
+    - name: Deploy to Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v18
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: 'wannaloot-server'
+        environment_name: 'wannaloot-server-env'
+        region: 'us-east-1' 
+        version_label: ${{ github.sha }}
+        deployment_package: package.zip
