@@ -47,9 +47,9 @@ export async function fetchAndStoreChopRates (WGPUrl: string): Promise<void> {
 export async function clearGuruSheepData (): Promise<void> {
   try {
     await ChopRates.deleteMany({});
-    console.log("Cleared all documents from chop rates database");
+    logger.info("Cleared all documents from chop rates database");
   } catch (error) {
-    console.error("Error clearing Chop Rates from database:", error);
+    logger.error("Error clearing Chop Rates from database:", error);
   }
 }
 
